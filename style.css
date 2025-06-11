@@ -36,7 +36,7 @@ h1 {
     font-size: 28px; /* Larger font size */
     font-weight: bold;
     color: #3498db; /* A distinct color for the word */
-    margin: 20px 0;
+    margin: 20px 0 5px 0; /* Reduced bottom margin to make space for phonetic display */
     padding: 15px;
     border: 1px solid #e0e0e0;
     border-radius: 6px;
@@ -46,6 +46,22 @@ h1 {
     align-items: center;
     line-height: 1.4; /* Improve readability for sentences */
 }
+
+/* Styling for Phonetic Display Area */
+#phonetic-display {
+    font-size: 1.1em;  /* Relative to body/container font. #word-display is 28px, this will be smaller. */
+    color: #555;       /* Gray color */
+    font-style: italic;
+    margin-top: 0px;   /* Top margin from #word-display */
+    margin-bottom: 15px; /* Bottom margin before buttons */
+    min-height: 1.5em;  /* To prevent layout jumps, accommodates text size */
+    text-align: center;
+    display: flex;      /* For vertical centering if needed, matches word-display */
+    justify-content: center;
+    align-items: center;
+    line-height: 1.4;
+}
+
 
 /* 4. Buttons (button) */
 button {
@@ -122,6 +138,12 @@ button:active {
     #word-display {
         font-size: 24px;
         min-height: 50px;
+    }
+
+    #phonetic-display {
+        font-size: 1em;
+        min-height: 1.2em;
+        margin-bottom: 10px;
     }
 
     button {

@@ -14,6 +14,7 @@ A simple web application for practicing word dictation in multiple languages (En
     *   "Play" button to repeat the current audio.
     *   "Next" button to move to the next word/sentence.
 *   **User-Friendly Interface:** Basic styling for ease of use.
+*   **Phonetic Display:** Shows IPA phonetic transcriptions for English words and sentences to aid in pronunciation.
 
 ## How to Use
 
