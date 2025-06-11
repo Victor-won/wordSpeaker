@@ -1,11 +1,11 @@
 // Word List
 const words = [
     // English Words
-    { text: 'apple', lang: 'en-US' },
-    { text: 'house', lang: 'en-US' },
-    { text: 'computer', lang: 'en-US' },
-    { text: 'book', lang: 'en-US' },
-    { text: 'water', lang: 'en-US' },
+    { text: 'apple', lang: 'en-US', phonetic: '/ˈæpəl/' },
+    { text: 'house', lang: 'en-US', phonetic: '/haʊs/' },
+    { text: 'computer', lang: 'en-US', phonetic: '/kəmˈpjuːtər/' },
+    { text: 'book', lang: 'en-US', phonetic: '/bʊk/' },
+    { text: 'water', lang: 'en-US', phonetic: '/ˈwɔːtər/' },
     // Chinese Words
     { text: '你好', lang: 'zh-CN' }, // nǐ hǎo (hello)
     { text: '谢谢', lang: 'zh-CN' }, // xièxie (thank you)
@@ -13,8 +13,8 @@ const words = [
     { text: '朋友', lang: 'zh-CN' }, // péngyou (friend)
     { text: '快乐', lang: 'zh-CN' }, // kuàilè (happy)
     // English Sentences
-    { text: 'Good morning, how are you?', lang: 'en-US' },
-    { text: 'Practice makes perfect.', lang: 'en-US' },
+    { text: 'Good morning, how are you?', lang: 'en-US', phonetic: '/ɡʊd ˈmɔːrnɪŋ, haʊ ɑːr juː?/' },
+    { text: 'Practice makes perfect.', lang: 'en-US', phonetic: '/ˈpræktɪs meɪks ˈpɜːrfɪkt/' },
     // Chinese Sentences
     { text: '今天天气很好。', lang: 'zh-CN' }, // Jīntiān tiānqì hěn hǎo. (The weather is very good today.)
     { text: '我喜欢学习语言。', lang: 'zh-CN' }  // Wǒ xǐhuān xuéxí yǔyán. (I like learning languages.)
@@ -28,6 +28,7 @@ const nextButton = document.getElementById('next-button');
 const userInput = document.getElementById('user-input');
 const checkButton = document.getElementById('check-button');
 const feedbackArea = document.getElementById('feedback-area');
+const phoneticDisplay = document.getElementById('phonetic-display'); // 1. Get DOM reference
 
 let audioEnabled = false;
 
@@ -109,6 +110,15 @@ function displayNextWord() {
     }
     const currentWordObject = words[currentWordIndex];
     if (wordDisplay) wordDisplay.textContent = currentWordObject.text;
+
+    // 2. Update displayNextWord() function
+    if (phoneticDisplay) { // Check if the element exists
+        if (currentWordObject.lang && currentWordObject.lang.startsWith('en') && currentWordObject.phonetic) {
+            phoneticDisplay.textContent = currentWordObject.phonetic;
+        } else {
+            phoneticDisplay.textContent = ''; // Clear for non-English words or if no phonetic info
+        }
+    }
 
     if (userInput) userInput.value = '';
 
