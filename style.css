@@ -1,0 +1,141 @@
+/* 1. Body/Container */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7f6; /* Light background color */
+    color: #333;
+    margin: 0;
+    padding: 10px; /* Add some padding for smaller screens */
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 500px; /* Max width for the container */
+}
+
+/* 2. Heading (h1) */
+h1 {
+    color: #2c3e50;
+    margin-bottom: 25px; /* More margin at the bottom */
+    font-size: 2em; /* Responsive font size */
+    text-align: center;
+}
+
+/* 3. Word Display Area (#word-display) */
+#word-display {
+    font-size: 28px; /* Larger font size */
+    font-weight: bold;
+    color: #3498db; /* A distinct color for the word */
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    min-height: 60px; /* Ensure enough height, considering padding */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.4; /* Improve readability for sentences */
+}
+
+/* 4. Buttons (button) */
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 18px; /* More padding */
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 8px 5px; /* Margin between buttons and other elements */
+    font-size: 16px;
+    transition: background-color 0.2s ease, transform 0.1s ease; /* Smooth transitions */
+}
+
+button:hover {
+    background-color: #2980b9; /* Darker shade on hover */
+}
+
+button:active {
+    background-color: #2471a3; /* Even darker on active/click */
+    transform: scale(0.98); /* Slight press effect */
+}
+
+/* Styling for specific buttons if needed, e.g., a 'next' button */
+#next-button {
+    background-color: #2ecc71; /* Green for 'Next' */
+}
+
+#next-button:hover {
+    background-color: #27ae60;
+}
+
+#next-button:active {
+    background-color: #1e8449;
+}
+
+
+/* 5. Input Field (#user-input) */
+#user-input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 15px 0; /* Margin top and bottom */
+    width: calc(100% - 26px); /* Adjust for padding and border */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    font-size: 16px;
+}
+
+/* 6. Feedback Area (#feedback-area) */
+#feedback-area {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    min-height: 30px; /* Ensure enough height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    color: #555; /* Default text color */
+    line-height: 1.5;
+}
+
+/* Responsive adjustments (optional, but good practice) */
+@media (max-width: 600px) {
+    .container {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    #word-display {
+        font-size: 24px;
+        min-height: 50px;
+    }
+
+    button {
+        padding: 10px 15px;
+        font-size: 15px;
+    }
+
+    #user-input {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    #feedback-area {
+        font-size: 17px;
+        min-height: 25px;
+    }
+}
