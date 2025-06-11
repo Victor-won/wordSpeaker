@@ -308,7 +308,7 @@ function speak() {
     }
 
     try {
-        window.speechSynthesis.cancel();
+        // The window.speechSynthesis.cancel(); line that was here is REMOVED.
         const utterance = new SpeechSynthesisUtterance(currentWord.text);
         utterance.lang = currentWord.lang;
 
