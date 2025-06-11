@@ -85,7 +85,6 @@ const manageWordPhonetic = document.getElementById('manage-word-phonetic');
 const phoneticInputContainer = document.getElementById('phonetic-input-container');
 const addWordForm = document.getElementById('add-word-form');
 const wordListUl = document.getElementById('word-list-ul');
-// 1. Get DOM References for toggle functionality
 const toggleManageButton = document.getElementById('toggle-manage-button');
 const manageWordsSection = document.getElementById('manage-words-section');
 
@@ -119,11 +118,6 @@ function renderWordList() {
 
         deleteButton.addEventListener('click', function() {
             const wordIndexToDelete = parseInt(this.getAttribute('data-index'), 10);
-
-            // Optional: Add a confirmation dialog
-            // if (!confirm(`Are you sure you want to delete "${words[wordIndexToDelete].text}"?`)) {
-            //     return;
-            // }
 
             if (!isNaN(wordIndexToDelete) && wordIndexToDelete >= 0 && wordIndexToDelete < words.length) {
                 const deletedWordText = words[wordIndexToDelete].text;
@@ -250,7 +244,7 @@ if (addWordForm) {
     });
 }
 
-// 2. Add Event Listener to toggleManageButton
+// Event Listener to toggleManageButton
 if (toggleManageButton && manageWordsSection) {
     toggleManageButton.addEventListener('click', () => {
         manageWordsSection.classList.toggle('hidden');
@@ -258,7 +252,7 @@ if (toggleManageButton && manageWordsSection) {
             toggleManageButton.textContent = 'Manage Words';
         } else {
             toggleManageButton.textContent = 'Hide Management';
-            renderWordList(); // Re-render the list when shown
+            renderWordList();
         }
     });
 }
@@ -435,6 +429,10 @@ if (nextButton) {
 
 if (playButton) {
     playButton.addEventListener('click', () => {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Perform cancel upfront.
+        }
+
         if (!audioEnabled) {
             audioEnabled = true;
             if (feedbackArea) {
@@ -446,24 +444,34 @@ if (playButton) {
 
             if ('speechSynthesis' in window) {
                 try {
-                    window.speechSynthesis.cancel();
                     const primeUtterance = new SpeechSynthesisUtterance(" ");
                     primeUtterance.volume = 0.01;
-                    primeUtterance.pitch = 0.5;
-                    primeUtterance.rate = 0.5;
                     primeUtterance.lang = 'en-US';
+                    primeUtterance.onend = () => console.log("Priming utterance ended.");
+                    primeUtterance.onerror = (event) => console.error("Priming utterance error:", event);
+
                     speechSynthesis.speak(primeUtterance);
-                    console.log("Priming utterance attempted synchronously.");
+                    console.log("Priming utterance queued.");
+
+                    setTimeout(() => {
+                        console.log("Calling main speak() after delay (first play).");
+                        speak();
+                    }, 100);
                 } catch (e) {
-                    console.error("Error with priming utterance:", e);
+                    console.error("Error in priming setup:", e);
+                    // Fallback: still try to speak after delay if priming setup fails
+                    setTimeout(() => {
+                        console.log("Calling main speak() after delay (priming setup error).");
+                        speak();
+                    }, 100);
                 }
+            } else {
+                // No speech synthesis, but speak() will show 'not supported'
+                speak();
             }
-            speak();
-        } else {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
-            speak();
+        } else { // audioEnabled is true
+            console.log("Audio enabled. Calling speak() directly for subsequent play.");
+            speak(); // Call directly, cancel was done at the top
         }
     });
 }
