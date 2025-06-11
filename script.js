@@ -1,4 +1,4 @@
-// 1. Word List
+// Word List
 const words = [
     // English Words
     { text: 'apple', lang: 'en-US' },
@@ -20,7 +20,7 @@ const words = [
     { text: '我喜欢学习语言。', lang: 'zh-CN' }  // Wǒ xǐhuān xuéxí yǔyán. (I like learning languages.)
 ];
 
-// 2. Variables
+// Variables
 let currentWordIndex = -1;
 const wordDisplay = document.getElementById('word-display');
 const playButton = document.getElementById('play-button');
@@ -29,8 +29,20 @@ const userInput = document.getElementById('user-input');
 const checkButton = document.getElementById('check-button');
 const feedbackArea = document.getElementById('feedback-area');
 
+let audioEnabled = false;
+
 // speak() function
 function speak() {
+    if (!audioEnabled) {
+        if (feedbackArea) {
+            const currentFeedback = feedbackArea.textContent || "";
+            if (!currentFeedback.includes("Correct!") && !currentFeedback.includes("Incorrect")) {
+                 feedbackArea.textContent = "Click 'Play' to enable audio.";
+            }
+        }
+        return;
+    }
+
     if (!('speechSynthesis' in window)) {
         console.warn("Speech synthesis not supported in this browser.");
         if (feedbackArea) {
@@ -50,6 +62,8 @@ function speak() {
     const currentWord = words[currentWordIndex];
 
     try {
+        // Cancel any speech that might be ongoing from a previous rapid click,
+        // especially if the priming utterance was very short or didn't play.
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(currentWord.text);
         utterance.lang = currentWord.lang;
@@ -98,15 +112,17 @@ function displayNextWord() {
 
     if (userInput) userInput.value = '';
 
-    // 3. Clear feedback on "Next"
     if (feedbackArea) {
-        feedbackArea.textContent = '';
-        feedbackArea.style.color = ""; // Reset color
+        const currentFeedback = feedbackArea.textContent || "";
+        if (audioEnabled || (!audioEnabled && !currentFeedback.startsWith("Click 'Play' to enable audio."))) {
+            feedbackArea.textContent = '';
+            feedbackArea.style.color = "";
+        }
     }
     speak();
 }
 
-// 1. checkUserInput() function (replaces previous checkInput)
+// checkUserInput() function
 function checkUserInput() {
     if (currentWordIndex < 0 || currentWordIndex >= words.length) {
         if (feedbackArea) feedbackArea.textContent = "No word selected to check.";
@@ -122,7 +138,6 @@ function checkUserInput() {
     if (currentWordObject.lang.startsWith('en')) {
         isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
     } else {
-        // For Chinese and other languages, direct comparison (case-sensitive, as typical)
         isCorrect = userAnswer === correctAnswer;
     }
 
@@ -146,15 +161,51 @@ if (nextButton) {
 }
 
 if (playButton) {
-    playButton.addEventListener('click', speak);
+    playButton.addEventListener('click', () => {
+        if (!audioEnabled) {
+            audioEnabled = true;
+            if (feedbackArea) {
+                const currentFeedback = feedbackArea.textContent || "";
+                // Clear the "Click 'Play' to enable audio." or similar messages
+                if (currentFeedback.startsWith("Click 'Play' to enable audio.") || currentFeedback.startsWith("Audio not enabled.")) {
+                    feedbackArea.textContent = "";
+                }
+            }
+
+            if ('speechSynthesis' in window) {
+                try {
+                    // Cancel any existing speech *before* the priming utterance.
+                    // This is important if the user clicks rapidly.
+                    window.speechSynthesis.cancel();
+                    const primeUtterance = new SpeechSynthesisUtterance(" ");
+                    primeUtterance.volume = 0.01;
+                    primeUtterance.pitch = 0.5;
+                    primeUtterance.rate = 0.5;
+                    primeUtterance.lang = 'en-US';
+                    // Remove any onend/onerror handlers from primeUtterance that call the main speak().
+                    speechSynthesis.speak(primeUtterance);
+                    console.log("Priming utterance attempted synchronously.");
+                } catch (e) {
+                    console.error("Error with priming utterance:", e);
+                }
+            }
+            // Call the main speak() function immediately and synchronously after attempting the prime.
+            speak();
+        } else {
+            // If audio was already enabled, just call speak.
+            // Ensure any previous utterance is cancelled before speaking again if user clicks rapidly.
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            speak();
+        }
+    });
 }
 
-// 2. Event Listener for "Check" button
 if (checkButton) {
     checkButton.addEventListener('click', checkUserInput);
 }
 
-// 4. Optional: Allow Enter key to check input
 if (userInput) {
     userInput.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
@@ -175,11 +226,15 @@ function initializeApp() {
     }
 }
 
-if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
-    window.speechSynthesis.onvoiceschanged = () => {
-        window.speechSynthesis.onvoiceschanged = null;
+if ('speechSynthesis' in window) {
+    if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = () => {
+            window.speechSynthesis.onvoiceschanged = null;
+            initializeApp();
+        };
+    } else {
         initializeApp();
-    };
+    }
 } else {
     initializeApp();
 }

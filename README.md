@@ -22,8 +22,8 @@ A simple web application for practicing word dictation in multiple languages (En
     *   Open the `index.html` file in a modern web browser that supports the Web Speech API (e.g., Chrome, Firefox, Edge, Safari).
 
 2.  **Using the App:**
-    *   When the page loads, the first word/sentence will be displayed and spoken automatically.
-    *   Click the "Play" button to hear the current word/sentence again.
+    *   When the page loads, the first word/sentence will be displayed. Audio playback requires an initial click on the 'Play' button; a prompt will guide you.
+    *   Click the "Play" button to hear the current word/sentence again. (This will also enable audio if it's the first time).
     *   Type what you hear into the input field.
     *   Click the "Check" button or press Enter to see if your answer is correct. Feedback will appear below the input field.
     *   Click the "Next" button to move to the next word/sentence. This will also be spoken automatically.
