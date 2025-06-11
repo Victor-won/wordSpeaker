@@ -16,6 +16,40 @@
         <input type="text" id="user-input">
         <button id="check-button">Check</button>
         <div id="feedback-area"></div>
+
+        <hr style="margin: 20px 0;"> <!- Simple separator -->
+        <button id="toggle-manage-button">Manage Words</button>
+
+        <div id="manage-words-section" class="hidden">
+            <h2>Manage Words</h2>
+
+            <form id="add-word-form">
+                <h3>Add New Word</h3>
+                <div>
+                    <label for="manage-word-text">Text:</label>
+                    <input type="text" id="manage-word-text" required>
+                </div>
+                <div>
+                    <label for="manage-word-lang">Language:</label>
+                    <select id="manage-word-lang">
+                        <option value="en-US">English (US)</option>
+                        <option value="zh-CN">Chinese (CN)</option>
+                    </select>
+                </div>
+                <div id="phonetic-input-container"> <!-- Container for phonetic input, to be shown/hidden -->
+                    <label for="manage-word-phonetic">Phonetic (IPA):</label>
+                    <input type="text" id="manage-word-phonetic">
+                </div>
+                <button type="submit">Add Word</button>
+            </form>
+
+            <h3>Current Word List</h3>
+            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 10px; margin-top:10px;">
+                <ul id="word-list-ul">
+                    <!-- Words will be listed here by JavaScript -->
+                </ul>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

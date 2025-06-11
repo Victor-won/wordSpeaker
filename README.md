@@ -15,6 +15,11 @@ A simple web application for practicing word dictation in multiple languages (En
     *   "Next" button to move to the next word/sentence.
 *   **User-Friendly Interface:** Basic styling for ease of use.
 *   **Phonetic Display:** Shows IPA phonetic transcriptions for English words and sentences to aid in pronunciation.
+*   **Word List Management (via Local Storage):**
+    *   Add custom words (English with optional IPA, Chinese).
+    *   Delete words from the list.
+    *   Your custom word list is saved in your browser's Local Storage and persists across sessions on the same browser.
+    *   Toggle the management interface with the "Manage Words" button.
 
 ## How to Use
 
@@ -28,6 +33,7 @@ A simple web application for practicing word dictation in multiple languages (En
     *   Type what you hear into the input field.
     *   Click the "Check" button or press Enter to see if your answer is correct. Feedback will appear below the input field.
     *   Click the "Next" button to move to the next word/sentence. This will also be spoken automatically.
+    *   Click the "Manage Words" button to open the word list management panel. Here you can add new words or delete existing ones from your personalized list.
 
 ## Files
 

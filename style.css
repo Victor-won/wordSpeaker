@@ -3,13 +3,13 @@ body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Changed from center to allow scrolling for long content */
     align-items: center;
     min-height: 100vh;
-    background-color: #f4f7f6; /* Light background color */
+    background-color: #f4f7f6;
     color: #333;
     margin: 0;
-    padding: 10px; /* Add some padding for smaller screens */
+    padding: 20px; /* Increased body padding */
     box-sizing: border-box;
 }
 
@@ -20,74 +20,74 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 100%;
-    max-width: 500px; /* Max width for the container */
+    max-width: 600px; /* Slightly increased max-width for management UI */
+    margin-bottom: 20px; /* Added margin at the bottom of container */
 }
 
 /* 2. Heading (h1) */
 h1 {
     color: #2c3e50;
-    margin-bottom: 25px; /* More margin at the bottom */
-    font-size: 2em; /* Responsive font size */
+    margin-bottom: 25px;
+    font-size: 2em;
     text-align: center;
 }
 
 /* 3. Word Display Area (#word-display) */
 #word-display {
-    font-size: 28px; /* Larger font size */
+    font-size: 28px;
     font-weight: bold;
-    color: #3498db; /* A distinct color for the word */
-    margin: 20px 0 5px 0; /* Reduced bottom margin to make space for phonetic display */
+    color: #3498db;
+    margin: 20px 0 5px 0;
     padding: 15px;
     border: 1px solid #e0e0e0;
     border-radius: 6px;
-    min-height: 60px; /* Ensure enough height, considering padding */
+    min-height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-    line-height: 1.4; /* Improve readability for sentences */
+    line-height: 1.4;
 }
 
 /* Styling for Phonetic Display Area */
 #phonetic-display {
-    font-size: 1.1em;  /* Relative to body/container font. #word-display is 28px, this will be smaller. */
-    color: #555;       /* Gray color */
+    font-size: 1.1em;
+    color: #555;
     font-style: italic;
-    margin-top: 0px;   /* Top margin from #word-display */
-    margin-bottom: 15px; /* Bottom margin before buttons */
-    min-height: 1.5em;  /* To prevent layout jumps, accommodates text size */
+    margin-top: 0px;
+    margin-bottom: 15px;
+    min-height: 1.5em;
     text-align: center;
-    display: flex;      /* For vertical centering if needed, matches word-display */
+    display: flex;
     justify-content: center;
     align-items: center;
     line-height: 1.4;
 }
 
 
-/* 4. Buttons (button) */
+/* 4. Buttons (button) - General app buttons */
 button {
     background-color: #3498db;
     color: white;
     border: none;
-    padding: 12px 18px; /* More padding */
+    padding: 12px 18px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 8px 5px; /* Margin between buttons and other elements */
+    margin: 8px 5px;
     font-size: 16px;
-    transition: background-color 0.2s ease, transform 0.1s ease; /* Smooth transitions */
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 button:hover {
-    background-color: #2980b9; /* Darker shade on hover */
+    background-color: #2980b9;
 }
 
 button:active {
-    background-color: #2471a3; /* Even darker on active/click */
-    transform: scale(0.98); /* Slight press effect */
+    background-color: #2471a3;
+    transform: scale(0.98);
 }
 
-/* Styling for specific buttons if needed, e.g., a 'next' button */
 #next-button {
-    background-color: #2ecc71; /* Green for 'Next' */
+    background-color: #2ecc71;
 }
 
 #next-button:hover {
@@ -104,9 +104,9 @@ button:active {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 15px 0; /* Margin top and bottom */
-    width: calc(100% - 26px); /* Adjust for padding and border */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    margin: 15px 0;
+    width: calc(100% - 26px);
+    box-sizing: border-box;
     font-size: 16px;
 }
 
@@ -115,20 +115,150 @@ button:active {
     margin-top: 20px;
     font-size: 18px;
     font-weight: 500;
-    min-height: 30px; /* Ensure enough height */
+    min-height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 5px;
-    color: #555; /* Default text color */
+    color: #555;
     line-height: 1.5;
 }
 
-/* Responsive adjustments (optional, but good practice) */
+/* --- Word Management UI Styling --- */
+
+/* 1. .hidden Class */
+.hidden {
+    display: none !important;
+}
+
+/* 2. #manage-words-section Styling */
+#manage-words-section {
+    margin-top: 30px; /* Increased margin for better separation */
+    padding: 20px;    /* Increased padding */
+    border: 1px solid #ddd; /* Slightly softer border */
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: left; /* Align text to left for forms and lists */
+}
+
+#manage-words-section h2,
+#manage-words-section h3 {
+    text-align: center; /* Center headings within the section */
+    color: #333;
+    margin-bottom: 15px;
+}
+#manage-words-section h3 {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+
+/* 3. Form Elements */
+#add-word-form div {
+    margin-bottom: 12px; /* Slightly more margin */
+    display: flex; /* For better alignment of label and input */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    align-items: center;
+}
+#add-word-form label {
+    display: inline-block;
+    width: 130px; /* Adjusted width */
+    margin-right: 10px;
+    font-weight: 500;
+    color: #444;
+}
+#add-word-form input[type="text"],
+#add-word-form select {
+    padding: 10px; /* Increased padding */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* flex-grow: 1 allows input to take remaining space */
+    flex-grow: 1;
+    min-width: 150px; /* Prevent input from becoming too small */
+    box-sizing: border-box;
+}
+/* Ensure phonetic input container also uses flex for alignment if needed */
+#phonetic-input-container {
+    /* display: flex; already handled by #add-word-form div */
+    /* align-items: center; */
+}
+
+#add-word-form button[type="submit"] {
+    padding: 10px 20px; /* Adjusted padding */
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block; /* Make button block to center it easily */
+    margin-left: auto;
+    margin-right: auto;
+}
+#add-word-form button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* 4. Word List */
+/* The div wrapper for ul was added in HTML for scrolling */
+/* #word-list-ul's parent div already has max-height and overflow from HTML step */
+
+#word-list-ul {
+    list-style-type: none;
+    padding-left: 0;
+    /* Removed max-height, overflow, border, padding from here as it's on parent div */
+    background-color: #fff; /* White background for the list itself */
+}
+#word-list-ul li {
+    padding: 10px 8px; /* Increased padding */
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95em;
+    color: #333;
+}
+#word-list-ul li:last-child {
+    border-bottom: none;
+}
+.delete-word-btn {
+    padding: 6px 12px; /* Adjusted padding */
+    background-color: #dc3545; /* Red */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 10px; /* Space from word text */
+}
+.delete-word-btn:hover {
+    background-color: #c82333;
+}
+
+/* 5. Toggle Button (#toggle-manage-button) */
+#toggle-manage-button {
+    padding: 10px 20px; /* Adjusted padding */
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Slightly more rounded */
+    cursor: pointer;
+    margin-top: 25px; /* Increased margin */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.05em; /* Slightly larger font */
+}
+#toggle-manage-button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Responsive adjustments */
 @media (max-width: 600px) {
     .container {
-        margin: 15px;
-        padding: 20px;
+        margin: 10px; /* Reduced margin for small screens */
+        padding: 15px; /* Reduced padding */
     }
 
     h1 {
@@ -146,7 +276,7 @@ button:active {
         margin-bottom: 10px;
     }
 
-    button {
+    button { /* General buttons */
         padding: 10px 15px;
         font-size: 15px;
     }
@@ -159,5 +289,22 @@ button:active {
     #feedback-area {
         font-size: 17px;
         min-height: 25px;
+    }
+
+    #manage-words-section {
+        padding: 15px;
+    }
+    #add-word-form label {
+        width: 100%; /* Stack label and input on small screens */
+        margin-bottom: 5px;
+        text-align: left;
+    }
+    #add-word-form input[type="text"],
+    #add-word-form select {
+        width: 100%; /* Full width for inputs on small screens */
+    }
+    #toggle-manage-button {
+        font-size: 1em;
+        padding: 10px 15px;
     }
 }
